@@ -1,0 +1,111 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithmic}
+
+\title{CS 311 Assignment 1}
+\author{Anton Rasmussen}
+\date{February 8, 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Stable Matching Running Time}
+a) The Propose-and-Reject algorithm requires O(n) iterations for the following class of instances:\\ For any given college c in the instance, c's first choice is a student s such that s's first choice is c. With this instance there will be no rejections because every college will first propose to their favorite student and every student will first receive proposals from their top college. Each college will propose to and subsequently match with one and only one student, which implies the algorithm will run in linear time.\\\\
+b) The Propose-and-Reject algorithm will require $\Omega(n^2)$ iterations for the following class of instances:\\ All n colleges have the exact same student preference order and all n students have the exact same college preference order. Then, regardless of the order in which the colleges pick, the algorithm will take $n(n + 1)/2$ iterations to resolve. This is because there exists a college $c_0$ such that $c_0$ is the least preferred among all the students. $c_0$ then, will be rejected n - 1 times for each college ahead of it while the second to last college $c_1$ will be rejected n - 2 times and so on. However, each college is also accepted in the end so we add an n to $\sum_{i = 1}^{i = n} n - i$ changing it to $\sum_{i = 0}^{i = n} n - i$. This evaluates to $n(n + 1)/2$. The function f(n) = $n(n + 1)/2$ is $\Omega(n^2)$ because there exists constants $c$ and $n_0$ such that $n(n + 1)/2 \geq cn^2$, namely $c = 1$ and $n_0 = 1$.
+
+\section{Stable Matchings}
+a) The Gale-Shapley Algorithm is actually guaranteed to find a stable matching for any given instance of n students and n colleges. It's pseudo-code is as follows:
+\begin{algorithmic}
+\WHILE {some college is free}
+    \STATE let c be any college that is free
+    \STATE let s be the highest ranked student to whom c hasn't proposed
+        \IF {s is free} 
+            match c with s
+        \ELSE
+            \IF {$i\leq 3$}
+                \STATE match c with s 
+                \STATE unmatch c with s
+            \ELSE
+                \STATE s rejects c
+        \ENDIF
+\ENDWHILE
+\end{algorithmic}
+The intuition for this algorithm obviously came from what we learned the first lecture. As long as we're dealing with an instance involving 2 sets of n entities ranking each other, we proved that the Gale-Shapely algorithm is guaranteed to terminate and that it will always find a stable matching. The latter property is what we need to verify for this question and we can prove it by contradiction. Assume that there exists an instability involving student-college pairs c and s' along with c' and s. Assume that c prefers s over its current match s' and that c' prefers s' over its current match s. If c prefers s over s', c must have proposed to s before it was matched with s' because s is higher in c's preference list. If s accepted c's offer, it must have preferred c' over c because s chose to switch to c' when c' proposed. If s didn't accept c's offer, it must have been because s was already matched to a college c'' it preferred over c. Since students matches can only upgrade over the course of the algorithm, s must have preferred c' over c'' which implies s preferred c' over c. This contradicts our assumption. In Question 1 part b) it was determined and proved that the Propose-and-Reject algorithm (ie. the Gale-Shapley algorithm) requires $\Omega(n^2)$ iterations for some instances while it only requires $O(n)$ for others. This implies the algorithm isn't tightly bounded. The best way to describe the running time of the Gale-Shapley algorithm is to say it's $O(n^2)$. This is because each of the n colleges can propose to a maximum of n students and each attempted proposal causes the while loop to execute once. Once a college has proposed to a given student, they aren't allowed to propose to that student again, guaranteeing that the algorithm will terminate in at most $n^2$ iterations.\\\\
+b) An example of an instance that has a weak instability is any instance in which the first college to propose (we'll call it $c$) is indifferent about two students both of whom prefer c over any other college. c will match with one of these students which will call student a, leaving student b to match with a different college. In this case b will prefer c over its current match while c will be indifferent between b and its current match. Hence, this instance is guaranteed to have a weak instability. 
+
+\section{Big-O:}
+a) \[f(n) = (1/2)n^2\] The smallest integer N such that f(n) is $O(n^H)$ is 2.\\ Proof: f(n) is $O(n^2)$ because for any constants $c \geq 1/2$ and $n_0 \geq 0$, the following inequality holds for all $n \geq n_0$: $(1/2)n^2 \leq cn^2$.\\
+
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 2.\\ Proof: f(n) is $\Omega(n^2)$ because for any constants $c \leq 1/2$ and $n_0 \geq 0$, the following inequality holds: $(1/2)n^2 \geq cn^2$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(2 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $(1/2)n^2 \geq n^2n^{\epsilon}$. Cancel an $n^2$ from both sides and it's clear that a constant doesn't grow faster than a polynomial for any $n \geq n_0$. Proof by contradiction.\\
+
+b) \[f(n) = n(log(n))^3\] The smallest integer N such that f(n) is $O(n^H)$ is 2.\\ Proof: f(n) is $O(n^2)$ because for any constants $c \geq 5$ and $n_0 \geq 0$, the following inequality holds for all $n \geq n_0$: $n(log(n))^3 \leq cn^2$.\\
+
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 1.\\ Proof: f(n) is $\Omega(n)$ because for any constants $c \leq 1$ and $n_0 \geq 2$, the following inequality holds: $n(log(n))^3 \geq cn$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(1 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $n(log(n))^3 \geq nn^{\epsilon}$. Cancel an $n$ from both sides and it's clear that a constant doesn't grow faster than a polynomial for any $n \geq n_0$. Proof by contradiction.\\
+
+c) \[f(n) = \sum_{i=1}^{log(n)} n/(2^i)\] The smallest integer N such that f(n) is $O(n^H)$ is 2.\\ Proof: f(n) is $O(n^2)$ because for any constants $c > 1/2$ and $n_0 > 0$, the following inequality holds: $(1/2)n^2 \leq cn^2$.\\
+
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 2.\\ Proof: f(n) is $\Omega(n^L)$ because for any constants $c > 1/2$ and $n_0 > 0$, the following inequality holds: $(1/2)n^2 \geq cn^2$. Consider the inequality f(n) $\geq n^{(2 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $(1/2)n^2 \geq n^2n^{\epsilon}$. Cancel an $n^2$ from both sides and it's clear that a constant doesn't grow faster than a polynomial for any $n > n_0$ regardless of the value of $n_0$. Proof by contradiction.\\\\
+
+d) \[f(n) = \sum_{i=1}^{n} i^3\] The smallest integer N such that f(n) is $O(n^H)$ is 4.\\ Proof: The first step is to write f(n) as a function of n. The intuition for this formula comes from the fact that sum of the first n cubes equals $k^2$, where k is the nth triangle number. Knowing the formula for triangle numbers already, one can simply square that formula to find that f(n) = $(n(n + 1)/2)^2$ which forms a quartic polynomial when simplified. This formula can be proved by induction:\\
+Let P(n) be $\sum_{i=1}^{n} i^3 = (n(n + 1)/2)^2$\\
+Base Case: The sum of the first cube is 1 which equals $(1(1+1)/2)^2 = 1^2 = 1$.\\
+Inductive Step: $(n(n + 1)/2)^2 + (n + 1)^3$ = $(n^4+2n^3+n^2)/4 + (n + 1)^3$ = $(n^4+6n^3+13n^2+12n+4)/4$ = $((n+1)(n+2)/2)^2$.\\
+
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 4.\\ Proof: As shown in the previous proof, f(n) is a quartic polynomial and so it should be tightly bounded. f(n) $\Omega(n^4)$ because for constant $c = 1/4$ and $n_0 > 0$, the following inequality holds: $(n(n + 1)/2)^2 \geq cn^2$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(4 + \epsilon)}$. Substitute in f(n) and divide both sides by $n^4$ to get $1/4(1 + 2/n + 1/n^2 \geq n^{\epsilon}$. A polynomial of a negative degree clearly doesn't grow faster than a polynomial of a positive degree so we have a contradiction.\\\\
+
+e) \[f(n) = 2^{log(n)^2}\] There doesn't actually exist an integer H such that f(n) is $O(n^H)$.\\ Proof: For there to exist such an integer, the inequality $2^{log(n)^2} \leq cn^H$ must hold for some integer H. $2^{log(n)^2}$ simplifies to $2^{log(n)*log(n)}$ which equals $2^{(log^n)^{log(n)}}$ which equals $n^{log(n)}$. Taking the nth log of both sides of the inequality yields $log(n) \leq H + log_n(c)$. A constant clearly doesn't grow faster than a logarithm function for $n \geq n_0$ regardless of the value of $n_0$.\\
+
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is undefined for the same reason as the previous proof. f(n) will be $\Omega(n^L)$ for any value of L because when the inequality is simplified, a logarithm function will still grow faster than L.\\\\
+
+\section{Asymptotics:}
+a) The running time of the algorithm is $O(n^2)$.\\
+Explanation: The first loop in the algorithm clearly executes n times. For each time the first loop executes, the second loop will execute n - 1, n - 2, ... , n - n + 1, 0 times. Adding these quantities together yields the expression $(n^2 + n)/2$ which equals $n(n-1)/2$. This represents the total number of times the second loop executes. $f(n) = n(n-1)/2$ is $O(n^2)$ because for all $n \geq n_0$, $f(n) \leq cn^2$ for $c = 1$ and $n_0 > 0$.\\\\
+b) The running time of the algorithm is also $\Omega(n^2)$.\\
+Explanation: $f(n) = n(n-1)/2$ is $\Omega(n^2)$ because there exist constants $c$ and $n_0$ such that $f(n) \geq cn^2$ for all $n \geq n_0$. For instance this inequality will hold for $c = 1/5$ and $n_0 = 5/3$.\\\\
+c)\\\\
+
+\section{DFS and BFS:}
+Suppose we have a connected graph G = (V, E)
+and a vertex u ∈ V . If we run DFS from u, we obtain a tree T. Suppose that if we run BFS from u we
+obtain exactly the same tree T. Prove that G = T.\\
+
+(3.4) Let T be a breadth-first search tree, let x and y be nodes in T belonging
+to layers Li and Lj respectively, and let (x, y) be an edge of G. Then i and j differ
+by at most 1.\\
+(3.7) Let T be a depth-first search tree, let x and y be nodes in T, and let
+(x, y) be an edge of G that is not an edge of T. Then one of x or y is an ancestor
+of the other.
+
+\section{Butterfly ID:}
+Algorithm to determine consistency of judgements:\\
+\begin{algorithmic}
+\FORALL{judgements in m}
+    \STATE let i be the first pair in the current judgement
+    \STATE let j be the second pair in the current judgement
+    \STATE let s be the labeling of the pairs
+        \IF {s is same} 
+            \IF {n[i] and n[j] are both unmarked}
+                \STATE mark n[i] and n[j] with a
+            \ELSIF{one of n[i] and n[j] is marked}
+                \STATE mark the unmarked element with the same mark as the marked element
+            \ELSIF{n[i]'s mark differs from n[j]'s mark}
+                \STATE return false;
+            \ENDIF
+        \ENDIF
+        \IF {s is different} 
+            \IF {n[i] and n[j] are both unmarked}
+                \STATE mark n[i] with a and n[j] with b
+            \ELSIF{one of n[i] and n[j] is marked}
+                \STATE mark the unmarked element with a different mark from the marked element
+            \ELSIF{n[i]'s mark is the same as n[j]'s mark}
+                \STATE return false;
+            \ENDIF
+        \ENDIF
+\ENDFOR
+\STATE return true;
+\end{algorithmic}\\
+
+
+
+\end{document}

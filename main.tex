@@ -3,18 +3,18 @@
 \usepackage{algorithmic}
 
 \title{CS 311 Assignment 1}
-\author{Anton Rasmussen}
+\author{Anton Rasmussen, collaborated with Jack McDonough}
 \date{February 8, 2019}
 
 \begin{document}
 
 \maketitle
 
-\section{Stable Matching Running Time}
+\section{Stable Matching Running Time:}
 a) The Propose-and-Reject algorithm requires O(n) iterations for the following class of instances:\\ For any given college c in the instance, c's first choice is a student s such that s's first choice is c. With this instance there will be no rejections because every college will first propose to their favorite student and every student will first receive proposals from their top college. Each college will propose to and subsequently match with one and only one student, which implies the algorithm will run in linear time.\\\\
 b) The Propose-and-Reject algorithm will require $\Omega(n^2)$ iterations for the following class of instances:\\ All n colleges have the exact same student preference order and all n students have the exact same college preference order. Then, regardless of the order in which the colleges pick, the algorithm will take $n(n + 1)/2$ iterations to resolve. This is because there exists a college $c_0$ such that $c_0$ is the least preferred among all the students. $c_0$ then, will be rejected n - 1 times for each college ahead of it while the second to last college $c_1$ will be rejected n - 2 times and so on. However, each college is also accepted in the end so we add an n to $\sum_{i = 1}^{i = n} n - i$ changing it to $\sum_{i = 0}^{i = n} n - i$. This evaluates to $n(n + 1)/2$. The function f(n) = $n(n + 1)/2$ is $\Omega(n^2)$ because there exists constants $c$ and $n_0$ such that $n(n + 1)/2 \geq cn^2$, namely $c = 1$ and $n_0 = 1$.
 
-\section{Stable Matchings}
+\section{Stable Matchings:}
 a) The Gale-Shapley Algorithm is actually guaranteed to find a stable matching for any given instance of n students and n colleges. It's pseudo-code is as follows:
 \begin{algorithmic}
 \WHILE {some college is free}
@@ -35,35 +35,49 @@ The intuition for this algorithm obviously came from what we learned the first l
 b) An example of an instance that has a weak instability is any instance in which the first college to propose (we'll call it $c$) is indifferent about two students both of whom prefer c over any other college. c will match with one of these students which will call student a, leaving student b to match with a different college. In this case b will prefer c over its current match while c will be indifferent between b and its current match. Hence, this instance is guaranteed to have a weak instability. 
 
 \section{Big-O:}
-a) \[f(n) = (1/2)n^2\] The smallest integer N such that f(n) is $O(n^H)$ is 2.\\ Proof: f(n) is $O(n^2)$ because for any constants $c \geq 1/2$ and $n_0 \geq 0$, the following inequality holds for all $n \geq n_0$: $(1/2)n^2 \leq cn^2$.\\
+a) \[f(n) = (1/2)n^2\] The smallest integer H such that f(n) is $O(n^H)$ is 2.\\ Proof: f(n) is $O(n^2)$ because for constants $c = 1/2$ and $n_0 = 0$, the following inequality holds for all $n \geq n_0$: $(1/2)n^2 \leq cn^2$.\\
 
-The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 2.\\ Proof: f(n) is $\Omega(n^2)$ because for any constants $c \leq 1/2$ and $n_0 \geq 0$, the following inequality holds: $(1/2)n^2 \geq cn^2$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(2 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $(1/2)n^2 \geq n^2n^{\epsilon}$. Cancel an $n^2$ from both sides and it's clear that a constant doesn't grow faster than a polynomial for any $n \geq n_0$. Proof by contradiction.\\
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 2.\\ Proof: f(n) is $\Omega(n^2)$ because for constants $c = 1/2$ and $n_0 = 0$, the following inequality holds for all $n \geq n_0$: $(1/2)n^2 \geq cn^2$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(2 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $(1/2)n^2 \geq n^2n^{\epsilon}$. Cancel an $n^2$ from both sides and it's clear that a constant doesn't grow faster than a polynomial for any $n \geq n_0$.\\
 
-b) \[f(n) = n(log(n))^3\] The smallest integer N such that f(n) is $O(n^H)$ is 2.\\ Proof: f(n) is $O(n^2)$ because for any constants $c \geq 5$ and $n_0 \geq 0$, the following inequality holds for all $n \geq n_0$: $n(log(n))^3 \leq cn^2$.\\
+b) \[f(n) = n(log(n))^3\] The smallest integer H such that f(n) is $O(n^H)$ is 2.\\ Proof: f(n) is $O(n^2)$ because for constants $c = 5$ and $n_0 = 0$, the following inequality holds for all $n \geq n_0$: $n(log(n))^3 \leq cn^2$.\\
 
-The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 1.\\ Proof: f(n) is $\Omega(n)$ because for any constants $c \leq 1$ and $n_0 \geq 2$, the following inequality holds: $n(log(n))^3 \geq cn$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(1 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $n(log(n))^3 \geq nn^{\epsilon}$. Cancel an $n$ from both sides and it's clear that a constant doesn't grow faster than a polynomial for any $n \geq n_0$. Proof by contradiction.\\
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 1.\\ Proof: f(n) is $\Omega(n)$ because for any constants $c = 1$ and $n_0 = 2$, the following inequality holds for all $n \geq n_0$: $n(log(n))^3 \geq cn$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(1 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $n(log(n))^3 \geq nn^{\epsilon}$. Cancel an $n$ from both sides and it's clear that a logarithm doesn't grow faster than a polynomial for any $n \geq n_0$.\\
 
-c) \[f(n) = \sum_{i=1}^{log(n)} n/(2^i)\] The smallest integer N such that f(n) is $O(n^H)$ is 2.\\ Proof: f(n) is $O(n^2)$ because for any constants $c > 1/2$ and $n_0 > 0$, the following inequality holds: $(1/2)n^2 \leq cn^2$.\\
-
-The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 2.\\ Proof: f(n) is $\Omega(n^L)$ because for any constants $c > 1/2$ and $n_0 > 0$, the following inequality holds: $(1/2)n^2 \geq cn^2$. Consider the inequality f(n) $\geq n^{(2 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $(1/2)n^2 \geq n^2n^{\epsilon}$. Cancel an $n^2$ from both sides and it's clear that a constant doesn't grow faster than a polynomial for any $n > n_0$ regardless of the value of $n_0$. Proof by contradiction.\\\\
-
-d) \[f(n) = \sum_{i=1}^{n} i^3\] The smallest integer N such that f(n) is $O(n^H)$ is 4.\\ Proof: The first step is to write f(n) as a function of n. The intuition for this formula comes from the fact that sum of the first n cubes equals $k^2$, where k is the nth triangle number. Knowing the formula for triangle numbers already, one can simply square that formula to find that f(n) = $(n(n + 1)/2)^2$ which forms a quartic polynomial when simplified. This formula can be proved by induction:\\
-Let P(n) be $\sum_{i=1}^{n} i^3 = (n(n + 1)/2)^2$\\
-Base Case: The sum of the first cube is 1 which equals $(1(1+1)/2)^2 = 1^2 = 1$.\\
+c) \[f(n) = \sum_{i=1}^{log(n)} n/(2^i)\] The presence of the logarithm in the summation admittedly made it difficult to simplify the formula algebraically. Instead I derived f(n) by checking the value of the formula for powers of 2. I found that the result for a given n where n was a power of 2 was $\sum_{i=0}^{n - 1} 2^n$. This in turn resulted in the formula f(n) = n - 1 which is proved by induction://
+Let P(n) be $\sum_{i=1}^{log(n)} n/(2^i) = n - 1$\\
+Base Case: Since log(1) = 0, the summation will equal 0 which equals $1 - 1 = 0$\\
 Inductive Step: $(n(n + 1)/2)^2 + (n + 1)^3$ = $(n^4+2n^3+n^2)/4 + (n + 1)^3$ = $(n^4+6n^3+13n^2+12n+4)/4$ = $((n+1)(n+2)/2)^2$.\\
+The smallest integer H such that f(n) is $O(n^H)$ is 1.\\ Proof: f(n) is $O(n)$ because for constants $c = 1$ and $n_0 = 0$, the following inequality holds for all $n \geq n_0$: $n - 1 \leq cn$.\\
 
-The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 4.\\ Proof: As shown in the previous proof, f(n) is a quartic polynomial and so it should be tightly bounded. f(n) $\Omega(n^4)$ because for constant $c = 1/4$ and $n_0 > 0$, the following inequality holds: $(n(n + 1)/2)^2 \geq cn^2$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(4 + \epsilon)}$. Substitute in f(n) and divide both sides by $n^4$ to get $1/4(1 + 2/n + 1/n^2 \geq n^{\epsilon}$. A polynomial of a negative degree clearly doesn't grow faster than a polynomial of a positive degree so we have a contradiction.\\\\
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is also 1.\\ Proof: f(n) is $\Omega(n)$ because for constants $c = 1/2$ and $n_0 = 2$, the following inequality holds for all $n \geq n_0$: $n - 1 \geq cn$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(1 + \epsilon)}$. Substitute in f(n) and use exponent rules to get $n - 1 \geq nn^{\epsilon}$. Cancel an $n$ from both sides and it's clear that a polynomial of a negative degree doesn't grow faster than a polynomial of a positive degree for any $n \geq n_0$ regardless of the value of $n_0$.\\\\
 
-e) \[f(n) = 2^{log(n)^2}\] There doesn't actually exist an integer H such that f(n) is $O(n^H)$.\\ Proof: For there to exist such an integer, the inequality $2^{log(n)^2} \leq cn^H$ must hold for some integer H. $2^{log(n)^2}$ simplifies to $2^{log(n)*log(n)}$ which equals $2^{(log^n)^{log(n)}}$ which equals $n^{log(n)}$. Taking the nth log of both sides of the inequality yields $log(n) \leq H + log_n(c)$. A constant clearly doesn't grow faster than a logarithm function for $n \geq n_0$ regardless of the value of $n_0$.\\
+d) \[f(n) = \sum_{i=1}^{n} i^3\] The smallest integer H such that f(n) is $O(n^H)$ is 4.\\ Proof: The first step is to write f(n) as a function of n. The intuition for this formula comes from the fact that sum of the first n cubes equals $k^2$, where k is the nth triangle number. Knowing the formula for triangle numbers already, one can simply square that formula to find that f(n) = $(n(n + 1)/2)^2$ which forms a quartic polynomial when simplified.\\
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is 4.\\ Proof: As shown in the previous proof, f(n) is a quartic polynomial and so it should be tightly bounded. f(n) $\Omega(n^4)$ because for constants $c = 1/4$ and $n_0 = 0$, the following inequality holds for all $n \geq n_0$: $(n(n + 1)/2)^2 \geq cn^4$. To show that this is the largest positive real constant, consider the inequality f(n) $\geq n^{(4 + \epsilon)}$. Substitute in f(n) and divide both sides by $n^4$ to get $1/4(1 + 2/n + 1/n^2) \geq n^{\epsilon}$. A polynomial of a negative degree clearly doesn't grow faster than a polynomial of a positive degree so we have a contradiction.\\\\
 
-The largest positive real constant L such that f(n) is $\Omega(n^L)$ is undefined for the same reason as the previous proof. f(n) will be $\Omega(n^L)$ for any value of L because when the inequality is simplified, a logarithm function will still grow faster than L.\\\\
+e) \[f(n) = 2^{log(n)^2}\] There doesn't actually exist an integer H such that f(n) is $O(n^H)$.\\ Proof: For there to exist such an integer, the inequality $2^{log(n)^2} \leq cn^H$ must hold beyond some threshold $n_0$ some constant $c$, and some integer H. $2^{log(n)^2}$ simplifies to $2^{log(n)*log(n)}$ which equals $2^{(log^n)^{log(n)}}$ which equals $n^{log(n)}$. Taking the nth log of both sides of the inequality yields $log(n) \leq H + log_n(c)$. A constant clearly doesn't grow faster than a logarithm function for $n \geq n_0$ regardless of the value of $n_0$.\\
+
+The largest positive real constant L such that f(n) is $\Omega(n^L)$ is undefined for the same reason as the previous proof. f(n) will be $\Omega(n^L)$ for any value of L because when the inequality is simplified, a logarithm function will still grow faster than a constant.\\\\
 
 \section{Asymptotics:}
-a) The running time of the algorithm is $O(n^2)$.\\
-Explanation: The first loop in the algorithm clearly executes n times. For each time the first loop executes, the second loop will execute n - 1, n - 2, ... , n - n + 1, 0 times. Adding these quantities together yields the expression $(n^2 + n)/2$ which equals $n(n-1)/2$. This represents the total number of times the second loop executes. $f(n) = n(n-1)/2$ is $O(n^2)$ because for all $n \geq n_0$, $f(n) \leq cn^2$ for $c = 1$ and $n_0 > 0$.\\\\
-b) The running time of the algorithm is also $\Omega(n^2)$.\\
-Explanation: $f(n) = n(n-1)/2$ is $\Omega(n^2)$ because there exist constants $c$ and $n_0$ such that $f(n) \geq cn^2$ for all $n \geq n_0$. For instance this inequality will hold for $c = 1/5$ and $n_0 = 5/3$.\\\\
-c)\\\\
+a) The running time of the algorithm is $O(n^3)$.\\
+Explanation: The first loop in the algorithm clearly executes n times. With each execution of the first loop, the second loop will execute n - 1, n - 2, ... , n - n + 1, 0 times. Adding these quantities together yields the expression $(n^2 + n)/2$ which equals $n(n-1)/2$. This represents the total number of times the second loop executes. However, the operation of computing the maximum of entries A[i] to A[j] requires a traversal of A that iterates j - i times. In the worst case, j - i equals the length of A minus 1 so the algorithm's runtime is no better than the function $f(n) = n^2(n-1)/2$. f(n) is $O(n^3)$ because for all $n \geq n_0$, $f(n) \leq cn^3$ for $c = 1$ and $n_0 = 0$.\\
+b) The running time of the algorithm is also $\Omega(n^3)$.\\
+Explanation: $f(n) = n^2(n-1)/2$ is $\Omega(n^3)$ because for all $n \geq n_0$, $f(n) \geq cn^3$ for all $c = 1/4$ and $n_0 = 5/3$.\\
+c) Faster algorithm:\\
+\begin{algorithmic}
+\FORALL{i = 0, 1, 2, ..., n}
+    \STATE compute the maximum of the entries A[0] - A[i]
+    \STATE store maximum value in B[0][i]
+\ENDFOR
+\FORALL{i = 1, 2, ..., n}
+    \FORALL{j = i + 1, ..., n}
+        \STATE Store the value at B[0][j] in B[i][j]
+    \ENDFOR
+\ENDFOR
+\end{algorithmic}\\
+The intuition for this algorithm came from the fact that any column in the matrix B will have the same entries as long as $j > i$. This is because the top-most entry in a given column determines the entries below it. The algorithm takes advantage of this property by iterating through A only n times (for each column in B). Then the algorithm fills in the remaining spaces in B by referencing the entry in the first row of the each of column (constant time operation).\\
+Proof: Let's consider entry c located at B[0][j]. Then c, by definition, is the maximum of the entries in A[0] - A[j]. If c is the maximum of the entries in this range, c must also be the maximum of the entries in A[i] - A[j] for $i > 0$ because these ranges are smaller. Since the entry in B[i][j] for $i > 0$ is determined by computing the maximum of these smaller ranges, these positions in B must be occupied by c.\\
+This algorithm runs in time $O(n^2)$. The first loop executes only n times but the second set of loops are nested. As in the original algorithm, for each time the first loop executes, the second loop will execute n - 1, n - 2, ... , 1 times. Adding these quantities together yields the expression $(n^2 + n)/2$ which equals $n(n-1)/2$. The function $g(n) = n(n-1)/2$ is $O(n^2)$ because for all $n \geq n_0$, $g(n) \leq cn^2$ for $c = 1$ and $n_0 = 0$. $O(n^2)$ is a better runtime than $O(n^3)$ and the $\lim_{n\to\infinty} f(n)/g(n) = 0$.\\
 
 \section{DFS and BFS:}
 Suppose we have a connected graph G = (V, E)
@@ -73,39 +87,22 @@ obtain exactly the same tree T. Prove that G = T.\\
 (3.4) Let T be a breadth-first search tree, let x and y be nodes in T belonging
 to layers Li and Lj respectively, and let (x, y) be an edge of G. Then i and j differ
 by at most 1.\\
-(3.7) Let T be a depth-first search tree, let x and y be nodes in T, and let
-(x, y) be an edge of G that is not an edge of T. Then one of x or y is an ancestor
-of the other.
+(3.7) Let T be a depth-first search tree, let x and y be nodes in T, and let (x, y) be an edge of G that is not an edge of T. Then one of x or y is an ancestor
+of the other.\\
+Proof by Contradiction: Keeping in mind that T is the result of both a breadth-first search and a depth-first search of G from the vertex u, we assume that there exists an edge (x, y) in G that isn't in T. Then by Fact (3.7), one of x or y is an ancestor of the other in T (1). T is also a breadth-first search tree and we know that x and y are nodes in T and that (x, y) is an edge in G from our initial assumption. Then by Fact (3.4) we know that x and y belong to layers Li and Lj in T where i and j differ by at most 1 (2). By (1) we know that x and y are in the same branch of T and since x and y are distinct nodes, we know by (2) that the layers in which x and y reside differ by exactly. The only way that both of these properties are true is if there is and edge from x to y in T. This contradicts our initial assumption and completes the proof.  
 
 \section{Butterfly ID:}
 Algorithm to determine consistency of judgements:\\
-\begin{algorithmic}
-\FORALL{judgements in m}
-    \STATE let i be the first pair in the current judgement
-    \STATE let j be the second pair in the current judgement
-    \STATE let s be the labeling of the pairs
-        \IF {s is same} 
-            \IF {n[i] and n[j] are both unmarked}
-                \STATE mark n[i] and n[j] with a
-            \ELSIF{one of n[i] and n[j] is marked}
-                \STATE mark the unmarked element with the same mark as the marked element
-            \ELSIF{n[i]'s mark differs from n[j]'s mark}
-                \STATE return false;
-            \ENDIF
-        \ENDIF
-        \IF {s is different} 
-            \IF {n[i] and n[j] are both unmarked}
-                \STATE mark n[i] with a and n[j] with b
-            \ELSIF{one of n[i] and n[j] is marked}
-                \STATE mark the unmarked element with a different mark from the marked element
-            \ELSIF{n[i]'s mark is the same as n[j]'s mark}
-                \STATE return false;
-            \ENDIF
-        \ENDIF
-\ENDFOR
-\STATE return true;
-\end{algorithmic}\\
+\begin{itemize}
+  \item The collection of m judgements is actually a representation of the graph where each butterfly pair is an edge between two vertices and each judgement is a label on the edge
+  \item Treating this as a graph, one can perform a breadth-first search on the graph starting at any arbitrary vertice
+  \item While the elements are on the open list, label each one either a or b (label the first vertice 'a')
+  \item When a given vertice's neighbors are put onto the open list, they should be labeled the same as the vertice if the edge between them is labeled same and different if the edge between them is labeled different
+  \item When the elements are taken off the open list they should be put in a collection visited where they are stored along with their labels
+  \item Prior to the BFS search, create a counter which increments with each iteration of the BFS. When this counter reaches n where n is the number of distinct butterflies, elements shouldn't be put into visited when they are discovered. Instead they are compared to the elements already in visited
+  \item If the element is the same butterfly as an element in visited but the two elements have different labels, then the judgements weren't consistent
+  \item If the BFS terminates, and the above condition is false for the last element, then the judgements were indeed consistent
+\end{itemize}
 
-
-
+Note: It probably took me around 10-12 hours to do this assignment but I think a lot of it had to do with learning Latex for the first time as well as grappling with Problem 6.
 \end{document}
